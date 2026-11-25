@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Overview",
+    "pages": [
+      "index.md"
+    ]
+  },
+  {
+    "title": "Guides",
+    "pages": [
+      "guides/getting-started.md",
+      "guides/scopes.md",
+      "guides/integration.md",
+      "guides/acs-migration.md"
+    ]
+  },
+  {
+    "title": "Specification",
+    "pages": [
+      "specification/index.md",
+      "specification/core.md",
+      "specification/identity.md",
+      "specification/scopes.md",
+      "specification/documents.md",
+      "specification/composition.md",
+      "specification/resolution.md",
+      "specification/secrets.md",
+      "specification/security.md",
+      "specification/files.md",
+      "specification/lifecycle.md",
+      "specification/interfaces.md",
+      "specification/conformance.md"
+    ]
+  },
+  {
+    "title": "Project",
+    "pages": [
+      "project/roadmap.md",
+      "project/governance.md",
+      "project/decisions.md"
+    ]
+  }
+]

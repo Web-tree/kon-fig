@@ -1,0 +1,258 @@
+[
+  {
+    "id": "scalar-array-null",
+    "defaults": {
+      "port": 80,
+      "features": [
+        "a",
+        "b"
+      ],
+      "proxy": "auto"
+    },
+    "layers": [
+      {
+        "values": {
+          "port": 8080,
+          "features": [
+            "c"
+          ],
+          "proxy": null
+        }
+      }
+    ],
+    "expected": {
+      "port": 8080,
+      "features": [
+        "c"
+      ],
+      "proxy": null
+    }
+  },
+  {
+    "id": "unset-default",
+    "defaults": {
+      "port": 80,
+      "proxy": "auto"
+    },
+    "layers": [
+      {
+        "values": {
+          "port": 8080
+        }
+      },
+      {
+        "values": {},
+        "unset": [
+          "/port"
+        ]
+      }
+    ],
+    "expected": {
+      "proxy": "auto"
+    }
+  },
+  {
+    "id": "nested-merge",
+    "defaults": {
+      "server": {
+        "port": 80,
+        "host": "localhost"
+      }
+    },
+    "layers": [
+      {
+        "values": {
+          "server": {
+            "port": 8080
+          }
+        }
+      }
+    ],
+    "expected": {
+      "server": {
+        "port": 8080,
+        "host": "localhost"
+      }
+    }
+  },
+  {
+    "id": "reintroduce",
+    "defaults": {
+      "a": {
+        "b": 1,
+        "c": 2
+      }
+    },
+    "layers": [
+      {
+        "values": {},
+        "unset": [
+          "/a"
+        ]
+      },
+      {
+        "values": {
+          "a": {
+            "b": 3
+          }
+        }
+      }
+    ],
+    "expected": {
+      "a": {
+        "b": 3
+      }
+    }
+  },
+  {
+    "id": "same-layer-unset",
+    "defaults": {
+      "a": 1
+    },
+    "layers": [
+      {
+        "values": {
+          "a": 2
+        },
+        "unset": [
+          "/a"
+        ]
+      }
+    ],
+    "expected": {}
+  },
+  {
+    "id": "escaped-pointer",
+    "defaults": {
+      "a/b": {
+        "~key": true,
+        "keep": 1
+      }
+    },
+    "layers": [
+      {
+        "values": {},
+        "unset": [
+          "/a~1b/~0key"
+        ]
+      }
+    ],
+    "expected": {
+      "a/b": {
+        "keep": 1
+      }
+    }
+  },
+  {
+    "id": "atomic-object",
+    "defaults": {
+      "a": {
+        "x": 1,
+        "y": 2
+      }
+    },
+    "atomic": [
+      "/a"
+    ],
+    "layers": [
+      {
+        "values": {
+          "a": {
+            "x": 3
+          }
+        }
+      }
+    ],
+    "expected": {
+      "a": {
+        "x": 3
+      }
+    }
+  },
+  {
+    "id": "replace-type",
+    "defaults": {
+      "a": 2
+    },
+    "layers": [
+      {
+        "values": {
+          "a": {
+            "b": 3
+          }
+        }
+      }
+    ],
+    "expected": {
+      "a": {
+        "b": 3
+      }
+    }
+  },
+  {
+    "id": "array-traversal-rejected",
+    "defaults": {
+      "a": [
+        1,
+        2
+      ]
+    },
+    "layers": [
+      {
+        "values": {},
+        "unset": [
+          "/a/0"
+        ]
+      }
+    ],
+    "error": "invalid-value"
+  },
+  {
+    "id": "scalar-traversal-rejected",
+    "defaults": {
+      "a": 1
+    },
+    "layers": [
+      {
+        "values": {},
+        "unset": [
+          "/a/b"
+        ]
+      }
+    ],
+    "error": "invalid-value"
+  },
+  {
+    "id": "absent-unset",
+    "defaults": {},
+    "layers": [
+      {
+        "values": {},
+        "unset": [
+          "/missing"
+        ]
+      }
+    ],
+    "expected": {}
+  },
+  {
+    "id": "prototype-as-data",
+    "defaults": {},
+    "layers": [
+      {
+        "values": {
+          "__proto__": {
+            "x": 1
+          },
+          "constructor": "data"
+        }
+      }
+    ],
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": "data"
+    }
+  }
+]
