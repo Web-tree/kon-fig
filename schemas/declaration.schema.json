@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Kon-Fig declaration",
+  "type": "object",
+  "required": [
+    "formatVersion",
+    "id",
+    "schemaVersion",
+    "schema"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$",
+      "maxLength": 253
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "name": {
+      "type": "string"
+    },
+    "schema": {
+      "type": "object",
+      "required": [
+        "$schema",
+        "type"
+      ],
+      "properties": {
+        "$schema": {
+          "const": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "type": {
+          "const": "object"
+        }
+      }
+    },
+    "defaults": {
+      "type": "object"
+    },
+    "settings": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^/(?:[^~]|~[01])*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "allowedScopes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "system",
+                "global",
+                "context-shared",
+                "context-personal",
+                "project-shared",
+                "project-personal",
+                "checkout",
+                "environment",
+                "invocation"
+              ]
+            }
+          },
+          "recommendedScope": {
+            "enum": [
+              "system",
+              "global",
+              "context-shared",
+              "context-personal",
+              "project-shared",
+              "project-personal",
+              "checkout",
+              "environment",
+              "invocation"
+            ]
+          },
+          "atomic": {
+            "type": "boolean"
+          },
+          "personal": {
+            "type": "boolean"
+          },
+          "securitySensitive": {
+            "type": "boolean"
+          },
+          "pathKind": {
+            "enum": [
+              "file",
+              "folder"
+            ]
+          }
+        }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "required"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "audience": {
+            "type": "string"
+          },
+          "allowEmpty": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "pointer",
+          "encoding"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "pointer": {
+            "type": "string",
+            "pattern": "^/(?:[^~]|~[01])*$"
+          },
+          "encoding": {
+            "enum": [
+              "string",
+              "json"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

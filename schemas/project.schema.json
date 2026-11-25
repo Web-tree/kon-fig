@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Kon-Fig project hint",
+  "type": "object",
+  "required": [
+    "formatVersion",
+    "id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 253
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}
